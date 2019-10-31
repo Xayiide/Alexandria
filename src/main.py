@@ -8,4 +8,9 @@ import msg
 
 def main():
     token = utils.readToken()
-    
+    print(msg.bot_init)    
+
+
+
+if __name__ == '__main__':
+    main()
