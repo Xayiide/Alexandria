@@ -3,3 +3,9 @@ setup.py
 
 # ignore token.txt
 token.txt
+
+# ignore __pycache__
+__pycache__
+
+# Don't push anything being edited
+*.swp*
