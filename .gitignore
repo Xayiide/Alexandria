@@ -1,9 +1,6 @@
 # Ignore setup.py
 setup.py
 
-# Ignore token.txt
-token.txt
-
 # Ignore configuration file
 config.cfg
 
