@@ -9,3 +9,6 @@ __pycache__
 
 # Don't push anything being edited
 *.swp*
+
+# Ignore TODOs file
+TODOs
