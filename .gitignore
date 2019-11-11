@@ -5,7 +5,7 @@ setup.py
 token.txt
 
 # Ignore configuration file
-config.yaml
+config.cfg
 
 # ignore __pycache__
 __pycache__
