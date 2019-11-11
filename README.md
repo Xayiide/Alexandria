@@ -13,11 +13,11 @@ pymysql es la librería que utilizaremos para la comunicación.
 
 # config.cfg
 El fichero de configuración tendrá el formato siguiente:
-[BOT]
-token: tokentext
+ [BOT]
+ token: tokentext
 
-[DATABASE]
-host: localhost
-user: database_user
-pass: database_password
-db:   database_name
+ [DATABASE]
+ host: localhost
+ user: database_user
+ pass: database_password
+ db:   database_name
