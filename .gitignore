@@ -1,8 +1,11 @@
-# ignore setup.py
+# Ignore setup.py
 setup.py
 
-# ignore token.txt
+# Ignore token.txt
 token.txt
+
+# Ignore configuration file
+config.yaml
 
 # ignore __pycache__
 __pycache__
