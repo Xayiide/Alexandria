@@ -12,7 +12,7 @@ pymysql es la librería que utilizaremos para la comunicación.
 
 
 # config.cfg
-El fichero de configuración tendrá el formato siguiente:
+El fichero de configuración tendrá el formato siguiente:  
 [BOT]  
 token: tokentext  
 
