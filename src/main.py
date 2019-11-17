@@ -2,34 +2,15 @@
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-import utils
-import msg
-import database
-
-# Commands
-def start(update, context):
-    """ Send welcome message """
-    msg.echo(update)
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                                text=msg.infoStartBot)
-
-
-
-def help(bot, update):
-    pass
-
-def addFromFile(bot, update):
-    pass
-
-
-def unknown(bot, update):
-    pass
-
+import utils     as utils
+import msg       as msg
+import database  as database
+import commands  as cmds
 
 
 
 def main():
-    print(msg.bot_init)
+    print(msg.log_init)
 
     cfg = utils.readConfig()
     db_ = database.db(cfg['dbhost'], cfg['dbuser'],
@@ -41,7 +22,8 @@ def main():
     dp         = updater.dispatcher
 
     # Command handlers
-    dp.add_handler(CommandHandler('start', start))
+    dp.add_handler(CommandHandler('start', cmds.start))
+    dp.add_handler(CommandHandler('help', cmds.help))
 
     # Message Handlers
 
