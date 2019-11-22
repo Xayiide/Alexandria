@@ -15,6 +15,7 @@ pymysql es la librería que utilizaremos para la comunicación.
 El fichero de configuración tendrá el formato siguiente:  
 [BOT]  
 token: tokentext  
+admins: admin1,admin2,admin3  
 
 [DATABASE]  
 host: localhost  
