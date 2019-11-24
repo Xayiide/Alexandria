@@ -15,23 +15,24 @@ def main():
     cfg = utils.Utils()
     cfg.readConfig()
 
+    db_ = database.db(cfg.dbhost, cfg.dbuser, cfg.dbpass, cfg.db)
+    db_.connect()
 
-    db_ = database.db(cfg['dbhost'], cfg['dbuser'],
-                      cfg['dbpass'], cfg['db'])
-
+    cmd = cmds.Commands(cfg, db_)
 
     # Telegram-bot initialization
-    updater    = Updater(token=cfg['token'], workers=200, use_context=True)
+    updater    = Updater(token=cfg.token, workers=200, use_context=True)
     dp         = updater.dispatcher
 
     # Command handlers
-    dp.add_handler(CommandHandler('start', cmds.start))
-    dp.add_handler(CommandHandler('help', cmds.help))
-    # dp.add_handler(CommandHandler('addCategory', cmds.addCategory))
-    # dp.add_handler(CommandHandler('rmCategory', cmds.rmCategory))
+    dp.add_handler(CommandHandler('start', cmd.start))
+    dp.add_handler(CommandHandler('help', cmd.help))
+    dp.add_handler(CommandHandler('addCategory', cmd.addCategory))
+    dp.add_handler(CommandHandler('rmCategory', cmd.rmCategory))
+    dp.add_handler(CommandHandler('addTopic', cmd.addTopic))
+    dp.add_handler(CommandHandler('rmTopic', cmd.rmTopic))
 
     # Message Handlers
-
 
     # Start doing things
     updater.start_polling()
