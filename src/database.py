@@ -25,6 +25,10 @@ class db:
                                  database=self.database)
         print("Connected to database")
 
+    def disconnect(self):
+        self.conn.close()
+
+
     def addCatToTopic(self, catName, topicName):
         cursor = self.conn.cursor()
         try:
@@ -88,10 +92,52 @@ class db:
             cursor.close()
 
 
-    def disconnect(self):
-        self.conn.close()
+    def addResource(self, url, catName, topicName):
+        cursor = self.conn.cursor()
+        try:
 
-    def execute(self, query):
-        self.__connect()
-        self.cur.execute(query)
-        self.__disconnect()
+            cursor.execute(q.selectFromWhere.format('topicId',
+                                                    'Topics',
+                                                    'topicName',
+                                                    '"' + topicName + '"'))
+            topicId = cursor.fetchall()[0][0]
+
+            cursor.execute(q.selectFromWhere.format('categoryId',
+                                                    'Categories',
+                                                    'categoryName',
+                                                    '"' + catName + '"'))
+            catId = cursor.fetchall()[0][0]
+            cursor.execute(q.insertIntoResources.format('"' + url + '"',
+                                                        catId,
+                                                        topicId))
+            self.conn.commit()
+        except Exception as e:
+            print("Error at addResource: {}".format(e))
+            return 1
+        finally:
+            cursor.close()
+
+    def rmResource(self, url, catName, topicName):
+        cursor = self.conn.cursor()
+        try:
+            cursor.execute(q.selectFromWhere.format('topicId',
+                                                    'Topics',
+                                                    'topicName',
+                                                    '"' + topicName + '"'))
+            topicId = cursor.fetchall()[0][0]
+
+            cursor.execute(q.selectFromWhere.format('categoryId',
+                                                    'Categories',
+                                                    'categoryName',
+                                                    '"' + catName + '"'))
+            catId = cursor.fetchall()[0][0]
+            # Remove the Resource
+            cursor.execute(q.deleteFromResources.format('"' + url + '"',
+                                                        catId,
+                                                        topicId))
+            self.conn.commit()
+        except Exeption as e:
+            print("Error at rmResource: {}".format(e))
+            return 1
+        finally:
+            cursor.close()
