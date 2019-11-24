@@ -31,6 +31,8 @@ def main():
     dp.add_handler(CommandHandler('rmCategory', cmd.rmCategory))
     dp.add_handler(CommandHandler('addTopic', cmd.addTopic))
     dp.add_handler(CommandHandler('rmTopic', cmd.rmTopic))
+    dp.add_handler(CommandHandler('addResource', cmd.addResource))
+    dp.add_handler(CommandHandler('rmResource', cmd.rmResource))
 
     # Message Handlers
 
