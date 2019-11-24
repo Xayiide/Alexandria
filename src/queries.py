@@ -10,3 +10,11 @@ deleteFromCateg = ("DELETE FROM Categories WHERE categoryName={} "
 insertIntoTopics = ("INSERT INTO Topics (topicName) VALUES ({})")
 
 deleteFromTopics = ("DELETE FROM Topics WHERE topicName={}")
+
+
+insertIntoResources = ("INSERT INTO Resources "
+                       "(resourceURL, category_id, topic_id) VALUES "
+                       "({}, {}, {})")
+
+deleteFromResources = ("DELETE FROM Resources WHERE resourceURL={} "
+                       "AND category_id={} AND topic_id={}")
