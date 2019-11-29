@@ -29,7 +29,7 @@ class db:
         self.conn.close()
 
 
-    def addCatToTopic(self, catName, topicName):
+    def addCatToTopic(self, topicName, catName):
         cursor = self.conn.cursor()
         try:
             # Retrieve the topicId for topicName
@@ -49,7 +49,7 @@ class db:
         finally:
             cursor.close()
 
-    def rmCatFromTopic(self, catName, topicName):
+    def rmCatFromTopic(self, topicName, catName):
         cursor = self.conn.cursor()
         try:
             # Retrieve the topic Id for the topicName
@@ -92,7 +92,7 @@ class db:
             cursor.close()
 
 
-    def addResource(self, url, catName, topicName):
+    def addResource(self, topicName, catName, url):
         cursor = self.conn.cursor()
         try:
 
@@ -117,7 +117,7 @@ class db:
         finally:
             cursor.close()
 
-    def rmResource(self, url, catName, topicName):
+    def rmResource(self, topicName, catName, url):
         cursor = self.conn.cursor()
         try:
             cursor.execute(q.selectFromWhere.format('topicId',

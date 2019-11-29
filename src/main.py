@@ -27,12 +27,20 @@ def main():
     # Command handlers
     dp.add_handler(CommandHandler('start', cmd.start))
     dp.add_handler(CommandHandler('help', cmd.help))
-    dp.add_handler(CommandHandler('addCategory', cmd.addCategory))
-    dp.add_handler(CommandHandler('rmCategory', cmd.rmCategory))
-    dp.add_handler(CommandHandler('addTopic', cmd.addTopic))
-    dp.add_handler(CommandHandler('rmTopic', cmd.rmTopic))
-    dp.add_handler(CommandHandler('addResource', cmd.addResource))
-    dp.add_handler(CommandHandler('rmResource', cmd.rmResource))
+    dp.add_handler(CommandHandler('addCategory', cmd.rmAddDatabase,
+                                  pass_args=True))
+    dp.add_handler(CommandHandler('rmCategory', cmd.rmAddDatabase,
+                                  pass_args=True))
+
+    dp.add_handler(CommandHandler('addTopic', cmd.rmAddDatabase,
+                                  pass_args=True))
+    dp.add_handler(CommandHandler('rmTopic', cmd.rmAddDatabase,
+                                  pass_args=True))
+
+    dp.add_handler(CommandHandler('addResource', cmd.rmAddDatabase,
+                                  pass_args=True))
+    dp.add_handler(CommandHandler('rmResource', cmd.rmAddDatabase,
+                                  pass_args=True))
 
     # Message Handlers
 

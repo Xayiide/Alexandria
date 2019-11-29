@@ -14,7 +14,7 @@ class Utils:
 
     def __init__(self):
         pass
-    
+
     def readConfig(self):
         config = configparser.ConfigParser()
         config.read('../config.cfg')
@@ -24,10 +24,10 @@ class Utils:
         self.dbuser = config['DATABASE']['user']
         self.dbpass = config['DATABASE']['pass']
         self.db     = config['DATABASE']['db']
-        
+
         for admin in config['BOT']['admins'].split(','):
             self.admins.append(int(admin))
-    
+
     def hasNick(self, update):
         if update.message.from_user.username != None:
             return True
@@ -49,3 +49,11 @@ class Utils:
     def isAdmin(self, user):
         return user in self.admins
 
+    def checkCmd(self, update, context, numArgs):
+
+        if not self.isAdmin(update.message.from_user.id):
+            print("Not an admin!")
+            return -1 # TODO: Throw exception
+        if len(context.args) != numArgs:
+            print("Not appropiate format for command")
+            return -2 # TODO: Throw exception
