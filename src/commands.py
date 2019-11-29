@@ -8,6 +8,13 @@ import database
 class Commands:
     utils    = None
     database = None
+    cmdArgs  = { "addTopic"   : 1,
+                 "rmTopic"    : 1,
+                 "addCategory": 2,
+                 "rmCategory" : 2,
+                 "addResource": 3,
+                 "rmResource" : 3,
+               }
 
     def __init__(self, utils, database):
         self.utils    = utils
@@ -25,102 +32,44 @@ class Commands:
         # TODO: Add all commands
         update.message.reply_text(msg.infoHelpBot)
 
+    def rmAddDatabase(self, update, context):
+        command = update.message.text.split(" ")[0][1:]
+        print("Received command: " + command)
+        if (self.utils.checkCmd(update, context, self.cmdArgs[command]) < 0):
+            print("Not a valid command")
+            return -1 # TODO: Throw Exception
 
-    def addCategory(self, update, context):
-        """ Add a category into the database
-            /addCategory [catName] [topicName] """
-        if not self.utils.isAdmin(update.message.from_user.id):
-            return 1
-        if len(context.args) != 2:
-            # TODO: mandar mensaje de error y salir
-            print("[!!] Formato incorrecto - addCategory")
-            return 1
-        try:
-            categoryName = context.args[0]
-            topicName    = context.args[1]
-            self.database.addCatToTopic(categoryName, topicName)
-        except (IndexError, ValueError):
-            return 2
-
-    def rmCategory(self, update, context):
-        """ Remove a category from the database
-            /rmCategory [catName] [topicName] """
-        if not self.utils.isAdmin(update.message.from_user.id):
-            return 1
-        if len(context.args) != 2:
-            # TODO: mandar mensaje de error y salir
-            print("[!!] Formato incorrecto - rmCategory")
-            return 1
-        try:
-            categoryName = context.args[0]
-            topicName    = context.args[1]
-            self.database.rmCatFromTopic(categoryName, topicName)
-        except (IndexError, ValueError):
-            return 2
-
-
-    def addTopic(self, update, context):
-        """ Add a topic to the database
-            /addTopic [topicName] """
-        if not self.utils.isAdmin(update.message.from_user.id):
-            return 1
-        if (len(context.args) != 1):
-            print("[!!] Formato incorrecto - addTopic")
-            return 1
-        try:
+        # TODO: Add Exceptions
+        if "Topic" in command:
+            print("Topic")
             topicName = context.args[0]
-            self.database.addTopic(topicName)
-        except Exception as e:
-            return 2
-
-    def rmTopic(self, update, context):
-        """ rm a topic from the DATABASE
-            /rmTopic [topicName] """
-        if not self.utils.isAdmin(update.message.from_user.id):
-            return 1
-        if (len(context.args) != 1):
-            print("[!!] Formato incorrecto - rmTopic")
-            return 1
-        try:
+            if "add" in command:
+                print("Adding topic: " + topicName)
+                self.database.addTopic(topicName)
+            elif "rm" in command:
+                print("Deleting topic: " + topicName)
+                self.database.rmTopic(topicName)
+        elif "Category" in command:
+            print("Category")
             topicName = context.args[0]
-            self.database.rmTopic(topicName)
-        except Exception as e:
-            return 2
-
-
-    def addResource(self, update, context):
-        """ Add a resource to a specific category
-            and topic
-            /addResource [URL] [catName] [topicName] """
-        if not self.utils.isAdmin(update.message.from_user.id):
-            return 1
-        if (len(context.args) != 3):
-            print("[!!] Formato incorrecto - addResource")
-            return 1
-        try:
-            resourceURL  = context.args[0]
-            categoryName = context.args[1]
-            topicName    = context.args[2]
-            self.database.addResource(resourceURL, categoryName, topicName)
-        except Exception as e:
-            return 2
-
-    def rmResource(self, update, context):
-        """ Remove a resource from a specific category
-            and topic
-            /rmResource [URL] [catName] [topicName] """
-        if not self.utils.isAdmin(update.message.from_user.id):
-            return 1
-        if (len(context.args) != 3):
-            print("[!!] Formato incorrecto - rmResource")
-            return 1
-        try:
-            resourceURL  = context.args[0]
-            categoryName = context.args[1]
-            topicName    = context.args[2]
-            self.database.rmResource(resourceURL, categoryName, topicName)
-        except Exception as e:
-            return 2
+            categName = context.args[1]
+            if "add" in command:
+                print("Adding " + categName + "to topic " + topicName)
+                self.database.addCatToTopic(topicName, categName)
+            elif "rm" in command:
+                print("Rmving " + categName + "from topic " + topicName)
+                self.database.rmCatFromTopic(topicName, categName)
+        elif "Resource" in command:
+            print("Resource")
+            topicName = context.args[0]
+            categName = context.args[1]
+            resURL    = context.args[2]
+            if "add" in command:
+                print("Adding url: " + resURL + "to: " + topicName + categName)
+                self.database.addResource(topicName, categName, resURL)
+            elif "rm" in command:
+                print("Rmving url: " + resURL + "from: " + topicName + categName)
+                self.database.rmResource(topicName, categName, resURL)
 
     def addFromFile(self, update, context):
         pass
