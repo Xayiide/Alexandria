@@ -27,19 +27,26 @@ def main():
     # Command handlers
     dp.add_handler(CommandHandler('start', cmd.start))
     dp.add_handler(CommandHandler('help', cmd.help))
-    dp.add_handler(CommandHandler('addCategory', cmd.rmAddDatabase,
+    dp.add_handler(CommandHandler('addcategory', cmd.rmAddDatabase,
                                   pass_args=True))
-    dp.add_handler(CommandHandler('rmCategory', cmd.rmAddDatabase,
-                                  pass_args=True))
-
-    dp.add_handler(CommandHandler('addTopic', cmd.rmAddDatabase,
-                                  pass_args=True))
-    dp.add_handler(CommandHandler('rmTopic', cmd.rmAddDatabase,
+    dp.add_handler(CommandHandler('rmcategory', cmd.rmAddDatabase,
                                   pass_args=True))
 
-    dp.add_handler(CommandHandler('addResource', cmd.rmAddDatabase,
+    dp.add_handler(CommandHandler('addtopic', cmd.rmAddDatabase,
                                   pass_args=True))
-    dp.add_handler(CommandHandler('rmResource', cmd.rmAddDatabase,
+    dp.add_handler(CommandHandler('rmtopic', cmd.rmAddDatabase,
+                                  pass_args=True))
+
+    dp.add_handler(CommandHandler('addresource', cmd.rmAddDatabase,
+                                  pass_args=True))
+    dp.add_handler(CommandHandler('rmresource', cmd.rmAddDatabase,
+                                  pass_args=True))
+
+    dp.add_handler(CommandHandler('showresources', cmd.showTable,
+                                  pass_args=True))
+    dp.add_handler(CommandHandler('showtopics', cmd.showTable,
+                                  pass_args=True))
+    dp.add_handler(CommandHandler('showcategories', cmd.showTable,
                                   pass_args=True))
 
     # Message Handlers
