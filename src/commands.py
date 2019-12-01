@@ -8,15 +8,15 @@ import database
 class Commands:
     utils    = None
     database = None
-    cmdArgs  = { "addTopic"      : 1,
-                 "rmTopic"       : 1,
-                 "addCategory"   : 2,
-                 "rmCategory"    : 2,
-                 "addResource"   : 3,
-                 "rmResource"    : 3,
-                 "showTopics"    : 0,
-                 "showCategories": 1,
-                 "showResources" : 2,
+    cmdArgs  = { "addtopic"      : 1,
+                 "rmtopic"       : 1,
+                 "addcategory"   : 2,
+                 "rmcategory"    : 2,
+                 "addresource"   : 3,
+                 "rmresource"    : 3,
+                 "showtopics"    : 0,
+                 "showcategories": 1,
+                 "showresources" : 2,
                }
 
     def __init__(self, utils, database):

@@ -48,7 +48,6 @@ def main():
                                   pass_args=True))
     dp.add_handler(CommandHandler('showcategories', cmd.showTable,
                                   pass_args=True))
-
     # Message Handlers
 
     # Start doing things
