@@ -49,11 +49,21 @@ class Utils:
     def isAdmin(self, user):
         return user in self.admins
 
-    def checkCmd(self, update, context, numArgs):
-
-        if not self.isAdmin(update.message.from_user.id):
+    def checkCmd(self, update, context, numArgs, needsAdmin):
+        if not self.isAdmin(update.message.from_user.id) and needsAdmin:
             print("Not an admin!")
             return -1 # TODO: Throw exception
         if len(context.args) != numArgs:
             print("Not appropiate format for command")
             return -2 # TODO: Throw exception
+        return 0
+
+    def parseResources(self, resources):
+        count = 1
+        text  = ""
+        for item in resources:
+            count_str = str(count)
+            res_url   = item[1]
+            text += (count_str + '. ' + res_url + '\n')
+            count += 1
+        return text
