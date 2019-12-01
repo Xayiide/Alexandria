@@ -112,7 +112,7 @@ class db:
 
 
 
-    def showTopics(self):
+    def getTopics(self):
         try:
             cursor = self.conn.cursor()
             cursor.execute(q.selectAllTopics)
@@ -122,7 +122,7 @@ class db:
         except Exception:
             raise
 
-    def showCategories(self, topicName):
+    def getCategories(self, topicName):
         try:
             topicId = self.getTopicIdFromName(topicName)
 
@@ -134,7 +134,7 @@ class db:
         except Exception:
             raise
 
-    def showResources(self, topicName, categName):
+    def getResources(self, topicName, categName):
         try:
             topicId = self.getTopicIdFromName(topicName)
             categId = self.getCategIdFromName(categName)

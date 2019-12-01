@@ -44,20 +44,20 @@ class Commands:
             return -1 # TODO: Throw Exception
 
         # TODO: Add Exceptions
-        if "Topic" in command:
+        if "topic" in command:
             topicName = context.args[0]
             if "add" in command:
                 self.database.rmAddTop(topicName, "add")
             elif "rm" in command:
                 self.database.rmAddTop(topicName, "rm")
-        elif "Category" in command:
+        elif "category" in command:
             topicName = context.args[0]
             categName = context.args[1]
             if "add" in command:
                 self.database.rmAddCat(topicName, categName, "add")
             elif "rm" in command:
                 self.database.rmAddCat(topicName, categName, "rm")
-        elif "Resource" in command:
+        elif "resource" in command:
             topicName = context.args[0]
             categName = context.args[1]
             resURL    = context.args[2]
@@ -76,28 +76,28 @@ class Commands:
                                 False) < 0):
             print("Not a valid command")
             return -1 # TODO: Raise Exception
-        if "Topics" in command:
+        if "topics" in command:
             try:
-                topics = self.database.showTopics()
+                topics = self.database.getTopics()
                 topics = self.utils.parseResources(topics)
                 update.message.reply_text(topics)
             except IndexError as e:
                 update.message.reply_text(msg.NoSuchTopic)
-        elif "Categories" in command:
+        elif "categories" in command:
             try:
                 topic      = update.message.text.split(" ")[1]
 
-                categories = self.database.showCategories(topic)
+                categories = self.database.getCategories(topic)
                 categories = self.utils.parseResources(categories)
                 update.message.reply_text(categories)
             except IndexError as e:
                 update.message.reply_text(msg.NoSuchCateg)
-        elif "Resources" in command:
+        elif "resources" in command:
             try:
                 topic = update.message.text.split(" ")[1]
                 categ = update.message.text.split(" ")[2]
 
-                res   = self.database.showResources(topic, categ)
+                res   = self.database.getResources(topic, categ)
                 res   = self.utils.parseResources(res)
                 update.message.reply_text(res)
             except IndexError as e:
