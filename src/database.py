@@ -1,6 +1,7 @@
 import mysql.connector as sql_
 import queries as q
 
+
 class db:
 
     host     = ""
@@ -29,115 +30,119 @@ class db:
         self.conn.close()
 
 
-    def addCatToTopic(self, topicName, catName):
-        cursor = self.conn.cursor()
+    def getTopicIdFromName(self, topicName):
         try:
-            # Retrieve the topicId for topicName
-            cursor.execute(q.selectFromWhere.format('topicId',
-                                                    'Topics',
-                                                    'topicName',
-                                                    '"' + topicName + '"'))
-            # fetchall will be like [(x,)] where x is the topicID
-            topicId = cursor.fetchall()[0][0] # Fetch only x, the topicID
-
-            cursor.execute(q.insertIntoCateg.format('"' + catName + '"',
-                                                   topicId))
-            self.conn.commit()
-        except Exception as e:
-            print("Error at addCatToTopic: {}".format(e))
-            return 1
-        finally:
-            cursor.close()
-
-    def rmCatFromTopic(self, topicName, catName):
-        cursor = self.conn.cursor()
-        try:
-            # Retrieve the topic Id for the topicName
+            cursor = self.conn.cursor()
             cursor.execute(q.selectFromWhere.format('topicId',
                                                     'Topics',
                                                     'topicName',
                                                     '"' + topicName + '"'))
             topicId = cursor.fetchall()[0][0]
-
-            cursor.execute(q.deleteFromCateg.format('"' + catName + '"',
-                                                    topicId))
-            self.conn.commit()
-        except Exception as e:
-            print("Error at rmCatFromTopic: {}".format(e))
-            return 1
-        finally:
             cursor.close()
+            return topicId
+        except Exception:
+            raise
 
-
-    def addTopic(self, topicName):
-        cursor = self.conn.cursor()
+    def getCategIdFromName(self, categName):
         try:
-            cursor.execute(q.insertIntoTopics.format('"' + topicName + '"'))
-            self.conn.commit()
-        except Exception as e:
-            print("Error at addTopic: {}".format(e))
-            return 1
-        finally:
-            cursor.close()
-
-    def rmTopic(self, topicName):
-        cursor = self.conn.cursor()
-        try:
-            cursor.execute(q.deleteFromTopics.format('"' + topicName + '"'))
-            self.conn.commit()
-        except Exception as e:
-            print("Error at rmTopic: {}".format(e))
-            return 1
-        finally:
-            cursor.close()
-
-
-    def addResource(self, topicName, catName, url):
-        cursor = self.conn.cursor()
-        try:
-
-            cursor.execute(q.selectFromWhere.format('topicId',
-                                                    'Topics',
-                                                    'topicName',
-                                                    '"' + topicName + '"'))
-            topicId = cursor.fetchall()[0][0]
-
+            cursor = self.conn.cursor()
             cursor.execute(q.selectFromWhere.format('categoryId',
                                                     'Categories',
                                                     'categoryName',
-                                                    '"' + catName + '"'))
-            catId = cursor.fetchall()[0][0]
-            cursor.execute(q.insertIntoResources.format('"' + url + '"',
-                                                        catId,
-                                                        topicId))
-            self.conn.commit()
-        except Exception as e:
-            print("Error at addResource: {}".format(e))
-            return 1
-        finally:
+                                                    '"' + categName + '"'))
+            categId = cursor.fetchall()[0][0]
             cursor.close()
+            return categId
+        except Exception:
+            raise
 
-    def rmResource(self, topicName, catName, url):
-        cursor = self.conn.cursor()
+
+    def rmAddTop(self, topicName, order):
         try:
-            cursor.execute(q.selectFromWhere.format('topicId',
-                                                    'Topics',
-                                                    'topicName',
-                                                    '"' + topicName + '"'))
-            topicId = cursor.fetchall()[0][0]
-
-            cursor.execute(q.selectFromWhere.format('categoryId',
-                                                    'Categories',
-                                                    'categoryName',
-                                                    '"' + catName + '"'))
-            catId = cursor.fetchall()[0][0]
-            # Remove the Resource
-            cursor.execute(q.deleteFromResources.format('"' + url + '"',
-                                                        catId,
-                                                        topicId))
+            cursor = self.conn.cursor()
+            if order == "add":
+                cursor.execute(q.insertIntoTopics.format("'" + topicName + "'"))
+            elif order == "rm":
+                cursor.execute(q.deleteFromTopics.format('"' + topicName + '"'))
+            else:
+                raise ValueError("Second argument must be either 'add' or 'rm'")
             self.conn.commit()
-        except Exeption as e:
-            print("Error at rmResource: {}".format(e))
-            return 1
-        finally:
             cursor.close()
+        except mysql.connector.Error as e:
+            print("Exception: {}".format(e))
+            raise
+
+    def rmAddCat(self, topicName, categName, order):
+        try:
+            topicId = self.getTopicIdFromName(topicName)
+            cursor  = self.conn.cursor()
+            if order == "add":
+                cursor.execute(q.insertIntoCateg.format('"' + categName + '"',
+                                                        topicId))
+            elif order == "rm":
+                cursor.execute(q.deleteFromCateg.format('"' + categName + '"',
+                                                        topicId))
+            else:
+                raise ValueError("Third argument must be either 'add' or 'rm'")
+            self.conn.commit()
+            cursor.close()
+        except mysql.connector.Error as e:
+            raise
+
+    def rmAddRes(self, topicName, categName, url, order):
+        try:
+            topicId = self.getTopicIdFromName(topicName)
+            categId = self.getCategIdFromName(categName)
+
+            cursor  = self.conn.cursor()
+            if order == "add":
+                cursor.execute(q.insertIntoResources.format('"' + url + '"',
+                                                            categId,
+                                                            topicId))
+            elif order == "rm":
+                cursor.execute(q.deleteFromResources.format('"' + url + '"',
+                                                            categId,
+                                                            topicId))
+            else:
+                raise ValueError("Fourth argument must be either 'add' or 'rm'")
+            self.conn.commit()
+            cursor.close()
+        except mysql.connector.Error as e:
+            raise
+
+
+
+    def showTopics(self):
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(q.selectAllTopics)
+            topics = cursor.fetchall()
+            cursor.close()
+            return topics
+        except Exception:
+            raise
+
+    def showCategories(self, topicName):
+        try:
+            topicId = self.getTopicIdFromName(topicName)
+
+            cursor = self.conn.cursor()
+            cursor.execute(q.selectFromCategories.format(topicId))
+            cats   = cursor.fetchall()
+            cursor.close()
+            return cats
+        except Exception:
+            raise
+
+    def showResources(self, topicName, categName):
+        try:
+            topicId = self.getTopicIdFromName(topicName)
+            categId = self.getCategIdFromName(categName)
+
+            cursor = self.conn.cursor()
+            cursor.execute(q.selectFromResources.format(topicId, categId))
+            res    = cursor.fetchall()
+            cursor.close()
+            return res
+        except Exception:
+            raise
