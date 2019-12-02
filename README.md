@@ -1,18 +1,17 @@
 # Alexandria
-Un template para bots de Telegram enfocados a guardar recursos de aprendizaje.
+Template for bots that gather learning resources  
 
 ## Requirements.txt
-El bot está escrito en Python3, así que:
-pip3 install -r requirements.txt
+Bot is written in Python3.  
+To install all required dependencies:  
+`pip3 install -r requirements.txt`  
 
+## mysql
+mysql is used as the database  
 
-# Mysql
-El bot utiliza mysql como base de datos.
-pymysql es la librería que utilizaremos para la comunicación.
-
-
-# config.cfg
-El fichero de configuración tendrá el formato siguiente:  
+## config.cfg
+The configuration file will have the following format:
+```
 [BOT]  
 token: tokentext  
 admins: admin1,admin2,admin3  
@@ -22,3 +21,6 @@ host: localhost
 user: database_user  
 pass: database_password  
 db:   database_name  
+```
+
+
