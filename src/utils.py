@@ -53,7 +53,11 @@ class Utils:
         if not self.isAdmin(update.message.from_user.id) and needsAdmin:
             print("Not an admin!")
             return -1 # TODO: Throw exception
-        if len(context.args) != numArgs:
+
+        command = update.message.text.split(" ")[0][1:]
+        if command == 'addtopic' and len(context.args) >= numArgs:
+            pass
+        elif len(context.args) != numArgs:
             print("Not appropiate format for command")
             return -2 # TODO: Throw exception
         return 0
