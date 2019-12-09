@@ -8,7 +8,7 @@ deleteFromCateg = ("DELETE FROM Categories WHERE categoryName={} "
                    "AND topic_id={}")
 
 
-insertIntoTopics = ("INSERT INTO Topics (topicName) VALUES ({})")
+insertIntoTopics = ("INSERT INTO Topics (topicName, topicDesc) VALUES ({}, {})")
 
 deleteFromTopics = ("DELETE FROM Topics WHERE topicName={}")
 
