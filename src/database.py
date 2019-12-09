@@ -57,11 +57,14 @@ class db:
             raise
 
 
-    def rmAddTop(self, topicName, order):
+    def rmAddTop(self, topicName, order, topicDesc=None):
         try:
             cursor = self.conn.cursor()
             if order == "add":
-                cursor.execute(q.insertIntoTopics.format("'" + topicName + "'"))
+                if topicDesc == None:
+                    return # TODO: Throw Exception
+                cursor.execute(q.insertIntoTopics.format("'" + topicName + "'",
+                                                         "'" + topicDesc + "'"))
             elif order == "rm":
                 cursor.execute(q.deleteFromTopics.format('"' + topicName + '"'))
             else:
