@@ -8,7 +8,7 @@ import database
 class Commands:
     utils    = None
     database = None
-    cmdArgs  = { "addtopic"      : 1,
+    cmdArgs  = { "addtopic"      : 2,
                  "rmtopic"       : 1,
                  "addcategory"   : 2,
                  "rmcategory"    : 2,
@@ -45,22 +45,23 @@ class Commands:
 
         # TODO: Add Exceptions
         if "topic" in command:
-            topicName = context.args[0]
+            topicName = context.args[0].lower()
             if "add" in command:
-                self.database.rmAddTop(topicName, "add")
+                topicDesc = ' '.join(context.args[1:])
+                self.database.rmAddTop(topicName, "add", topicDesc=topicDesc)
             elif "rm" in command:
                 self.database.rmAddTop(topicName, "rm")
         elif "category" in command:
-            topicName = context.args[0]
-            categName = context.args[1]
+            topicName = context.args[0].lower()
+            categName = context.args[1].lower()
             if "add" in command:
                 self.database.rmAddCat(topicName, categName, "add")
             elif "rm" in command:
                 self.database.rmAddCat(topicName, categName, "rm")
         elif "resource" in command:
-            topicName = context.args[0]
-            categName = context.args[1]
-            resURL    = context.args[2]
+            topicName = context.args[0].lower()
+            categName = context.args[1].lower()
+            resURL    = context.args[2] # URIs are case-sensitive
             if "add" in command:
                 self.database.rmAddRes(topicName, categName, resURL, "add")
             elif "rm" in command:
